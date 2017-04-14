@@ -8,10 +8,26 @@ namespace theArtofWar
 {
     public class Einheit
     {
-        public Microsoft.Xna.Framework.Graphics.Texture2D InfTexture01;
-        public int PosX = 0;
-        private int PosY = 0;
-        private int Rotation = 0;
+        private Microsoft.Xna.Framework.Graphics.Texture2D _InfTexture01;
+
+        public Microsoft.Xna.Framework.Graphics.Texture2D InfTexture01
+        {
+            get { return _InfTexture01; }
+            set { _InfTexture01 = value; }
+        }
+
+        private int _PosX = 0;
+        public int PosX
+        {
+            get { return _PosX; }
+            set { _PosX = value; }
+        }
+        private int _PosY = 0;
+        public int PosY
+        {
+            get { return _PosY; }
+            set { _PosY = value; }
+        }
         public Einheit()
         {
             
