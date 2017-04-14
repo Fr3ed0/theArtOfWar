@@ -7,6 +7,7 @@ namespace theArtofWar
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
+    /// CopyRecht@Peeple
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
