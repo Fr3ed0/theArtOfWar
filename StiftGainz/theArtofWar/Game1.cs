@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -14,7 +15,7 @@ namespace theArtofWar
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        private Texture2D Einheit;
+        Einheit HaraldEinheit = new Einheit();
 
         public Game1()
         {
@@ -43,7 +44,7 @@ namespace theArtofWar
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            Einheit = this.Content.Load<Texture2D>("infantrie");
+            HaraldEinheit.InfTexture01 = this.Content.Load<Texture2D>("infantrie");
             // TODO: use this.Content to load your game content here
         }
 
@@ -77,13 +78,17 @@ namespace theArtofWar
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(color: Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
             spriteBatch.Begin();
-            spriteBatch.Draw(Einheit, Vector2.Zero);
+            // spriteBatch.Draw(Einheit, Vector2.One);
+            spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: 500, y: 50), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+            spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: 50, y: 100), sourceRectangle: null, color: Color.White, rotation: 0f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+            spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: 200, y: 100), sourceRectangle: null, color: Color.White, rotation: 2f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+            spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: 200, y: 50), sourceRectangle: null, color: Color.White, rotation: 1f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
             spriteBatch.End();
-            base.Draw(gameTime);
+            base.Draw(gameTime: gameTime);
         }
     }
 }
