@@ -14,6 +14,7 @@ namespace theArtofWar
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private Texture2D Einheit;
 
         public Game1()
         {
@@ -42,7 +43,7 @@ namespace theArtofWar
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            Einheit = this.Content.Load<Texture2D>("infantrie");
             // TODO: use this.Content to load your game content here
         }
 
@@ -79,7 +80,9 @@ namespace theArtofWar
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-
+            spriteBatch.Begin();
+            spriteBatch.Draw(Einheit, Vector2.Zero);
+            spriteBatch.End();
             base.Draw(gameTime);
         }
     }
