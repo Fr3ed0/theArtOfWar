@@ -28,9 +28,14 @@ namespace theArtofWar
             get { return _PosY; }
             set { _PosY = value; }
         }
-        public Einheit()
+        public Einheit(int x, int y)
         {
-            
+            _PosX = x;
+            _PosY = y;
+        }
+
+        public void walk()
+        {
         }
     }
 }

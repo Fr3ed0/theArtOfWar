@@ -15,7 +15,9 @@ namespace theArtofWar
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        Einheit HaraldEinheit = new Einheit();
+        Random Random = new Random();
+        Einheit[] HaraldEinheit = new Einheit[300];
+        
 
         public Game1()
         {
@@ -44,7 +46,11 @@ namespace theArtofWar
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            HaraldEinheit.InfTexture01 = this.Content.Load<Texture2D>("infantrie");
+            for (int i = 0; i < HaraldEinheit.Length; i++)
+            {
+                HaraldEinheit[i] = new Einheit(Random.Next(0, 800), Random.Next(0, 800));
+                HaraldEinheit[i].InfTexture01 = this.Content.Load<Texture2D>("infantrie");
+            }
             // TODO: use this.Content to load your game content here
         }
 
@@ -83,10 +89,12 @@ namespace theArtofWar
             // TODO: Add your drawing code here
             spriteBatch.Begin();
             // spriteBatch.Draw(Einheit, Vector2.One);
-            spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: 500, y: 50), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
-            spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: 50, y: 100), sourceRectangle: null, color: Color.White, rotation: 0f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
-            spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: 200, y: 100), sourceRectangle: null, color: Color.White, rotation: 2f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
-            spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: 200, y: 50), sourceRectangle: null, color: Color.White, rotation: 1f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+            for (int i = 0; i < HaraldEinheit.Length; i++)
+            {
+                // Console.WriteLine(HaraldEinheit[i].PosX);
+                spriteBatch.Draw(texture: HaraldEinheit[i].InfTexture01, position: new Vector2(x: HaraldEinheit[i].PosX, y: HaraldEinheit[i].PosY), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+            }
+            // spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: HaraldEinheit.PosX, y: HaraldEinheit.PosY), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
             spriteBatch.End();
             base.Draw(gameTime: gameTime);
         }
