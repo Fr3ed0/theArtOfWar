@@ -9,6 +9,7 @@ namespace theArtofWar
     /// </summary>
     /// Copyright 2017
     /// Frederic Wolf and Edgar Justus
+    /// All Rights Reserved
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
