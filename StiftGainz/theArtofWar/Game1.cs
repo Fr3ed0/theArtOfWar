@@ -7,6 +7,8 @@ namespace theArtofWar
     /// <summary>
     /// This is the main type for your game.
     /// </summary>
+    /// Copyright 2017
+    /// Frederic Wolf and Edgar Justus
     public class Game1 : Game
     {
         GraphicsDeviceManager graphics;
