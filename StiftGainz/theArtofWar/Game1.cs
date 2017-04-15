@@ -93,6 +93,7 @@ namespace theArtofWar
             /* Jo lass mal lieber nur die posititon von dem ersten soldaten so auf das spielfeld werfen.
              * Wir können dann die ganze Armee abhängig von der position des ersten soldaten bauen,
              * je nach dem wie viele soldaten und was für soldaten in der Armee sind.
+             * und was passiert wenn dann genau der Soldat stirbt?
             */
             {
                 // Console.WriteLine(HaraldEinheit[i].PosX);
