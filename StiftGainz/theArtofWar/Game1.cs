@@ -90,11 +90,6 @@ namespace theArtofWar
             spriteBatch.Begin();
             // spriteBatch.Draw(Einheit, Vector2.One);
 
-            /* Jo lass mal lieber nur die posititon von dem ersten soldaten so auf das spielfeld werfen.
-             * Wir können dann die ganze Armee abhängig von der position des ersten soldaten bauen,
-             * je nach dem wie viele soldaten und was für soldaten in der Armee sind.
-             * und was passiert wenn dann genau der Soldat stirbt?
-            */
             {
                 // Console.WriteLine(HaraldEinheit[i].PosX);
                 spriteBatch.Draw(texture: HaraldEinheit[i].InfTexture01, position: new Vector2(x: HaraldEinheit[i].PosX, y: HaraldEinheit[i].PosY), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
