@@ -13,15 +13,17 @@ namespace theArtofWar
     /// All Rights Reserved
     public class Game1 : Game
     {
-        GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
-        Random Random = new Random();
-        Einheit[] HaraldEinheit = new Einheit[300];
-        
+        GraphicsDeviceManager mGraphics;
+        private int mWindowWidth;
+        private int mWindowHeight;
+        SpriteBatch mSpriteBatch;
+        Random mRandom = new Random();
+        Einheit[] mHaraldEinheit = new Einheit[300];
 
         public Game1()
         {
-            graphics = new GraphicsDeviceManager(this);
+            mGraphics = new GraphicsDeviceManager(this);
+            mGraphics.IsFullScreen = false;
             Content.RootDirectory = "Content";
         }
 
@@ -44,12 +46,14 @@ namespace theArtofWar
         /// </summary>
         protected override void LoadContent()
         {
+            mWindowWidth = GraphicsDevice.Viewport.Width;
+            mWindowHeight = GraphicsDevice.Viewport.Height;
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-            for (int i = 0; i < HaraldEinheit.Length; i++)
+            mSpriteBatch = new SpriteBatch(GraphicsDevice);
+            for (int i = 0; i < mHaraldEinheit.Length; i++)
             {
-                HaraldEinheit[i] = new Einheit(Random.Next(0, 800), Random.Next(0, 800));
-                HaraldEinheit[i].InfTexture01 = this.Content.Load<Texture2D>("infantrie");
+                mHaraldEinheit[i] = new Einheit(mRandom.Next(0, mWindowWidth), mRandom.Next(0, mWindowHeight));
+                mHaraldEinheit[i].InfTexture01 = this.Content.Load<Texture2D>("infantrie");
             }
             // TODO: use this.Content to load your game content here
         }
@@ -87,15 +91,15 @@ namespace theArtofWar
             GraphicsDevice.Clear(color: Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
-            spriteBatch.Begin();
+            mSpriteBatch.Begin();
             // spriteBatch.Draw(Einheit, Vector2.One);
-
+            for (int i = 0; i < mHaraldEinheit.Length; i++)
             {
                 // Console.WriteLine(HaraldEinheit[i].PosX);
-                spriteBatch.Draw(texture: HaraldEinheit[i].InfTexture01, position: new Vector2(x: HaraldEinheit[i].PosX, y: HaraldEinheit[i].PosY), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+                mSpriteBatch.Draw(texture: mHaraldEinheit[i].InfTexture01, position: new Vector2(x: mHaraldEinheit[i].PosX, y: mHaraldEinheit[i].PosY), sourceRectangle: null, color: Color.White, rotation: 0, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
             }
             // spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: HaraldEinheit.PosX, y: HaraldEinheit.PosY), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
-            spriteBatch.End();
+            mSpriteBatch.End();
             base.Draw(gameTime: gameTime);
         }
     }
