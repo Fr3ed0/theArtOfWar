@@ -18,8 +18,8 @@ namespace theArtofWar
         private int mWindowHeight;
         SpriteBatch mSpriteBatch;
         Random mRandom = new Random();
-        Einheit[] mHaraldEinheit = new Einheit[30];
-        private float[] mRotation = new float[30];
+        Einheit[] mHaraldEinheit = new Einheit[300];
+        private float[] mRotation = new float[300];
 
         public Game1()
         {
@@ -37,7 +37,7 @@ namespace theArtofWar
         protected override void Initialize()
         {
             // TODO: Add your initialization logic here
-
+            this.IsMouseVisible = true;
             base.Initialize();
         }
 
@@ -91,12 +91,10 @@ namespace theArtofWar
 
             for (int i = 0; i < mRotation.Length; i++)
             {
-                double a = Math.Abs(mHaraldEinheit[i].Pos.Y-current_mouse.Y);
-                double b = Math.Abs(mHaraldEinheit[i].Pos.X-current_mouse.X);
-                double c = Math.Sqrt(Math.Pow(a,2)+Math.Pow(b,2));
-                mRotation[i] = (float) Math.Sin(a/c);
+                Vector2 direction = new Vector2(current_mouse.X, current_mouse.Y)- mHaraldEinheit[i].Pos;
+                direction.Normalize();
+                mRotation[i] = (float) (Math.Atan2((double) direction.Y, (double) direction.X)+Math.PI/2);
             }
-            Console.WriteLine("X: {0} Y: {1} Winkel: {2}", mHaraldEinheit[0].Pos.X, mHaraldEinheit[0].Pos.Y, mRotation[0]);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
