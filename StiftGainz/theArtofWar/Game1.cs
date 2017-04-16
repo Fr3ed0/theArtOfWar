@@ -18,7 +18,8 @@ namespace theArtofWar
         private int mWindowHeight;
         SpriteBatch mSpriteBatch;
         Random mRandom = new Random();
-        Einheit[] mHaraldEinheit = new Einheit[300];
+        Einheit[] mHaraldEinheit = new Einheit[30];
+        private float[] mRotation = new float[30];
 
         public Game1()
         {
@@ -74,9 +75,28 @@ namespace theArtofWar
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Update(GameTime gameTime)
         {
+
+            // Code to get the postion of the mouse.
+            MouseState current_mouse = Mouse.GetState();
+            // current_mouse.X is the X position of the mouse
+            // and current_mouse.Y is the Y position.
+
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
+            if (Keyboard.GetState().IsKeyDown(Keys.F11))
+            {
+                mGraphics.IsFullScreen = true;
+                mGraphics.ApplyChanges();
+            }
 
+            for (int i = 0; i < mRotation.Length; i++)
+            {
+                double a = Math.Abs(mHaraldEinheit[i].Pos.Y-current_mouse.Y);
+                double b = Math.Abs(mHaraldEinheit[i].Pos.X-current_mouse.X);
+                double c = Math.Sqrt(Math.Pow(a,2)+Math.Pow(b,2));
+                mRotation[i] = (float) Math.Sin(a/c);
+            }
+            Console.WriteLine("X: {0} Y: {1} Winkel: {2}", mHaraldEinheit[0].Pos.X, mHaraldEinheit[0].Pos.Y, mRotation[0]);
             // TODO: Add your update logic here
 
             base.Update(gameTime);
@@ -96,8 +116,9 @@ namespace theArtofWar
             for (int i = 0; i < mHaraldEinheit.Length; i++)
             {
                 // Console.WriteLine(HaraldEinheit[i].PosX);
-                mSpriteBatch.Draw(texture: mHaraldEinheit[i].InfTexture01, position: new Vector2(x: mHaraldEinheit[i].PosX, y: mHaraldEinheit[i].PosY), sourceRectangle: null, color: Color.White, rotation: 0, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+                mSpriteBatch.Draw(texture: mHaraldEinheit[i].InfTexture01, position: mHaraldEinheit[i].Pos, sourceRectangle: null, color: Color.White, rotation: mRotation[i], origin: new Vector2(mHaraldEinheit[i].InfTexture01.Width/2, mHaraldEinheit[i].InfTexture01.Height/2), scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
             }
+            
             // spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: HaraldEinheit.PosX, y: HaraldEinheit.PosY), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
             mSpriteBatch.End();
             base.Draw(gameTime: gameTime);

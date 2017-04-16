@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Xna.Framework;
 
 namespace theArtofWar
 {
@@ -16,22 +17,11 @@ namespace theArtofWar
             set { mInfTexture01 = value; }
         }
 
-        private int mPosX = 0;
-        public int PosX
-        {
-            get { return mPosX; }
-            set { mPosX = value; }
-        }
-        private int mPosY = 0;
-        public int PosY
-        {
-            get { return mPosY; }
-            set { mPosY = value; }
-        }
+        public Vector2 Pos;
+        
         public Einheit(int x, int y)
         {
-            mPosX = x;
-            mPosY = y;
+            Pos = new Vector2(x, y);
         }
 
         public void Walk()

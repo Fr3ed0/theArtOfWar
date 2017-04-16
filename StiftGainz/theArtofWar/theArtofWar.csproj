@@ -7,7 +7,7 @@
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{46B25CA7-C24F-4C3E-A9C2-10B1DEE7D5E9}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>theArtofWar</RootNamespace>
     <AssemblyName>theArtofWar</AssemblyName>
