@@ -18,8 +18,8 @@ namespace theArtofWar
         private int mWindowHeight;
         SpriteBatch mSpriteBatch;
         Random mRandom = new Random();
-        Einheit[] mHaraldEinheit = new Einheit[300];
-        private float[] mRotation = new float[300];
+        Einheit[] mHaraldEinheit = new Einheit[30];
+        private MouseState current_mouse;
 
         public Game1()
         {
@@ -77,7 +77,7 @@ namespace theArtofWar
         {
 
             // Code to get the postion of the mouse.
-            MouseState current_mouse = Mouse.GetState();
+            current_mouse = Mouse.GetState();
             // current_mouse.X is the X position of the mouse
             // and current_mouse.Y is the Y position.
 
@@ -85,18 +85,29 @@ namespace theArtofWar
                 Exit();
             if (Keyboard.GetState().IsKeyDown(Keys.F11))
             {
-                mGraphics.IsFullScreen = true;
+                mGraphics.IsFullScreen = !mGraphics.IsFullScreen;
                 mGraphics.ApplyChanges();
             }
 
-            for (int i = 0; i < mRotation.Length; i++)
-            {
-                Vector2 direction = new Vector2(current_mouse.X, current_mouse.Y)- mHaraldEinheit[i].Pos;
-                direction.Normalize();
-                mRotation[i] = (float) (Math.Atan2((double) direction.Y, (double) direction.X)+Math.PI/2);
-            }
             // TODO: Add your update logic here
-
+            for (int i = 0; i < mHaraldEinheit.Length; i++)
+            {
+                for (int j = 0; j < mHaraldEinheit.Length; j++)
+                {
+                    if (i != j)
+                    {
+                        if (mHaraldEinheit[i].IsCollided(mHaraldEinheit[j]))
+                        {
+                            mHaraldEinheit[i].isColliding = true;
+                            break;
+                        }
+                    }
+                }
+                if (!mHaraldEinheit[i].isColliding)
+                {
+                    mHaraldEinheit[i].Walk(new Vector2(current_mouse.X, current_mouse.Y));
+                }
+            }
             base.Update(gameTime);
         }
 
@@ -114,7 +125,7 @@ namespace theArtofWar
             for (int i = 0; i < mHaraldEinheit.Length; i++)
             {
                 // Console.WriteLine(HaraldEinheit[i].PosX);
-                mSpriteBatch.Draw(texture: mHaraldEinheit[i].InfTexture01, position: mHaraldEinheit[i].Pos, sourceRectangle: null, color: Color.White, rotation: mRotation[i], origin: new Vector2(mHaraldEinheit[i].InfTexture01.Width/2, mHaraldEinheit[i].InfTexture01.Height/2), scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+                mSpriteBatch.Draw(texture: mHaraldEinheit[i].InfTexture01, position: mHaraldEinheit[i].Pos, sourceRectangle: null, color: Color.White, rotation: mHaraldEinheit[i].GetDirection(new Vector2(current_mouse.X, current_mouse.Y)), origin: new Vector2(mHaraldEinheit[i].InfTexture01.Width/2, mHaraldEinheit[i].InfTexture01.Height/2), scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
             }
             
             // spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: HaraldEinheit.PosX, y: HaraldEinheit.PosY), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);

@@ -9,6 +9,7 @@ namespace theArtofWar
 {
     public class Einheit
     {
+        public bool isColliding = false;
         private Microsoft.Xna.Framework.Graphics.Texture2D mInfTexture01;
 
         public Microsoft.Xna.Framework.Graphics.Texture2D InfTexture01
@@ -24,8 +25,31 @@ namespace theArtofWar
             Pos = new Vector2(x, y);
         }
 
-        public void Walk()
+        public float GetDirection(Vector2 destination)
         {
+            Vector2 direction = destination - Pos;
+            direction.Normalize();
+            return (float)(Math.Atan2((double)direction.Y, (double)direction.X) + Math.PI / 2);
+        }
+
+        public void Walk(Vector2 destination, float speed = 1)
+        {
+            Vector2 direction = destination - Pos;
+            direction.Normalize();
+            direction *= speed;
+            Pos += direction;
+        }
+
+        public bool IsCollided(Einheit other)
+        {
+            if ((Pos - other.Pos).Length() < 50)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
