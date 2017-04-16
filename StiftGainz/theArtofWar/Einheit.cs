@@ -9,7 +9,8 @@ namespace theArtofWar
 {
     public class Einheit
     {
-        public bool isColliding = false;
+        public string mFraktion;
+        public int mLeben = 100;
         private Microsoft.Xna.Framework.Graphics.Texture2D mInfTexture01;
 
         public Microsoft.Xna.Framework.Graphics.Texture2D InfTexture01
@@ -46,10 +47,14 @@ namespace theArtofWar
             {
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            return false;
+        }
+
+        public void StepAside(Einheit other)
+        {
+            Vector2 direction = other.Pos - Pos;
+            direction.Normalize();
+            Pos -= direction;
         }
     }
 }

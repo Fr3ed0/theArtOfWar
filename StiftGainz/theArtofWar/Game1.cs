@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -19,8 +21,9 @@ namespace theArtofWar
         SpriteBatch mSpriteBatch;
         Random mRandom = new Random();
         Einheit[] mHaraldEinheit = new Einheit[30];
+        Einheit[] mEnemy = new Einheit[20];
         private MouseState current_mouse;
-
+        List<Einheit> mAlleEinheiten = new List<Einheit>();
         public Game1()
         {
             mGraphics = new GraphicsDeviceManager(this);
@@ -53,9 +56,18 @@ namespace theArtofWar
             mSpriteBatch = new SpriteBatch(GraphicsDevice);
             for (int i = 0; i < mHaraldEinheit.Length; i++)
             {
-                mHaraldEinheit[i] = new Einheit(mRandom.Next(0, mWindowWidth), mRandom.Next(0, mWindowHeight));
+                mHaraldEinheit[i] = new Einheit(mRandom.Next(0, mWindowWidth/2), mRandom.Next(0, mWindowHeight));
                 mHaraldEinheit[i].InfTexture01 = this.Content.Load<Texture2D>("infantrie");
+                mHaraldEinheit[i].mFraktion = "Good";
             }
+            for (int i = 0; i < mEnemy.Length; i++)
+            {
+                mEnemy[i] = new Einheit(mRandom.Next(mWindowWidth / 2, mWindowWidth), mRandom.Next(0, mWindowHeight));
+                mEnemy[i].InfTexture01 = this.Content.Load<Texture2D>("infantrie");
+                mEnemy[i].mFraktion = "Evil";
+            }
+            mAlleEinheiten.AddRange(mHaraldEinheit);
+            mAlleEinheiten.AddRange(mEnemy);
             // TODO: use this.Content to load your game content here
         }
 
@@ -90,24 +102,52 @@ namespace theArtofWar
             }
 
             // TODO: Add your update logic here
-            for (int i = 0; i < mHaraldEinheit.Length; i++)
+            //for (int i = 0; i < mHaraldEinheit.Length; i++)
+            //{
+            //    for (int j = 0; j < mHaraldEinheit.Length; j++)
+            //    {
+            //        if (i == j) continue;
+            //        if (mHaraldEinheit[i].IsCollided(mHaraldEinheit[j]))
+            //        {
+            //            mHaraldEinheit[i].StepAside(mHaraldEinheit[j]);
+            //            goto doublebreak;
+            //        }
+            //    }
+            //    mHaraldEinheit[i].Walk(new Vector2(current_mouse.X, current_mouse.Y));
+            //    doublebreak:
+            //    ;
+            //}
+
+            for (int i = 0; i < mAlleEinheiten.Count; i++)
             {
-                for (int j = 0; j < mHaraldEinheit.Length; j++)
+                if (mAlleEinheiten[i].mLeben < 1)
                 {
-                    if (i != j)
-                    {
-                        if (mHaraldEinheit[i].IsCollided(mHaraldEinheit[j]))
-                        {
-                            mHaraldEinheit[i].isColliding = true;
-                            break;
-                        }
-                    }
-                }
-                if (!mHaraldEinheit[i].isColliding)
-                {
-                    mHaraldEinheit[i].Walk(new Vector2(current_mouse.X, current_mouse.Y));
+                    mAlleEinheiten.RemoveAt(i);
                 }
             }
+
+            for (int i = 0; i < mAlleEinheiten.Count; i++)
+            {   
+                for (int j = 0; j < mAlleEinheiten.Count; j++)
+                {
+                    if (i == j) continue;
+                    if (mAlleEinheiten[i].IsCollided(mAlleEinheiten[j]))
+                    {
+                        mAlleEinheiten[i].StepAside(mAlleEinheiten[j]);
+                        if (mAlleEinheiten[i].mFraktion != mAlleEinheiten[j].mFraktion)
+                        {
+                            mAlleEinheiten[i].mLeben -= 1;
+                            mAlleEinheiten[j].mLeben -= 1;
+                        }
+                        goto doublebreak;
+                    }
+                }
+                mAlleEinheiten[i].Walk(new Vector2(mWindowWidth/2, mWindowHeight/2));
+                // mAlleEinheiten[i].Walk(new Vector2(current_mouse.X, current_mouse.Y));
+                doublebreak:
+                ;
+            }
+
             base.Update(gameTime);
         }
 
@@ -122,13 +162,30 @@ namespace theArtofWar
             // TODO: Add your drawing code here
             mSpriteBatch.Begin();
             // spriteBatch.Draw(Einheit, Vector2.One);
-            for (int i = 0; i < mHaraldEinheit.Length; i++)
+            //for (int i = 0; i < mHaraldEinheit.Length; i++)
+            //{
+            //    // Console.WriteLine(HaraldEinheit[i].PosX);
+            //    mSpriteBatch.Draw(texture: mHaraldEinheit[i].InfTexture01, position: mHaraldEinheit[i].Pos, sourceRectangle: null, color: Color.White, rotation: mHaraldEinheit[i].GetDirection(new Vector2(current_mouse.X, current_mouse.Y)), origin: new Vector2(mHaraldEinheit[i].InfTexture01.Width / 2, mHaraldEinheit[i].InfTexture01.Height / 2), scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+            //}
+            for (int i = 0; i < mAlleEinheiten.Count; i++)
             {
                 // Console.WriteLine(HaraldEinheit[i].PosX);
-                mSpriteBatch.Draw(texture: mHaraldEinheit[i].InfTexture01, position: mHaraldEinheit[i].Pos, sourceRectangle: null, color: Color.White, rotation: mHaraldEinheit[i].GetDirection(new Vector2(current_mouse.X, current_mouse.Y)), origin: new Vector2(mHaraldEinheit[i].InfTexture01.Width/2, mHaraldEinheit[i].InfTexture01.Height/2), scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+                if (mAlleEinheiten[i].mFraktion == "Evil")
+                {
+                mSpriteBatch.Draw(texture: mAlleEinheiten[i].InfTexture01, position: mAlleEinheiten[i].Pos, sourceRectangle: null,
+                    color: Color.Black, rotation: mAlleEinheiten[i].GetDirection(new Vector2(mWindowWidth / 2, mWindowHeight / 2)), 
+                    origin: new Vector2(mAlleEinheiten[i].InfTexture01.Width / 2, mAlleEinheiten[i].InfTexture01.Height / 2), 
+                    scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+                }
+                else
+                {
+                mSpriteBatch.Draw(texture: mAlleEinheiten[i].InfTexture01, position: mAlleEinheiten[i].Pos, sourceRectangle: null, 
+                    color: Color.White, rotation: mAlleEinheiten[i].GetDirection(new Vector2(mWindowWidth / 2, mWindowHeight/2)), 
+                    origin: new Vector2(mAlleEinheiten[i].InfTexture01.Width / 2, mAlleEinheiten[i].InfTexture01.Height / 2), 
+                    scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+                }
             }
-            
-            // spriteBatch.Draw(texture: HaraldEinheit.InfTexture01, position: new Vector2(x: HaraldEinheit.PosX, y: HaraldEinheit.PosY), sourceRectangle: null, color: Color.White, rotation: 1.5f, origin: Vector2.Zero, scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+
             mSpriteBatch.End();
             base.Draw(gameTime: gameTime);
         }
