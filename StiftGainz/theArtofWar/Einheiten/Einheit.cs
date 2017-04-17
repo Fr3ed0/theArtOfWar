@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace theArtofWar
 {
-    public class Einheit
+    public abstract class Einheit
     {
         public string mFraktion;
         public int mLeben = 100;
@@ -55,6 +57,13 @@ namespace theArtofWar
             Vector2 direction = other.Pos - Pos;
             direction.Normalize();
             Pos -= direction;
+        }
+
+        public void Draw(SpriteBatch batch)
+        {
+            batch.Draw(InfTexture01, Pos, null, Color.White, GetDirection(new Vector2(0, 0)),
+                new Vector2(InfTexture01.Width/2, InfTexture01.Height/2), 0.1F, 
+                SpriteEffects.None, 0F);
         }
     }
 }

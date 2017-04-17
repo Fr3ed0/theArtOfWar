@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using theArtofWar.Einheiten;
 
 namespace theArtofWar
 {
@@ -21,7 +22,7 @@ namespace theArtofWar
         SpriteBatch mSpriteBatch;
         Random mRandom = new Random();
         Einheit[] mHaraldEinheit = new Einheit[30];
-        Einheit[] mEnemy = new Einheit[20];
+        Einheit[] mEnemy = new Einheit[30];
         private MouseState current_mouse;
         List<Einheit> mAlleEinheiten = new List<Einheit>();
         public Game1()
@@ -56,13 +57,13 @@ namespace theArtofWar
             mSpriteBatch = new SpriteBatch(GraphicsDevice);
             for (int i = 0; i < mHaraldEinheit.Length; i++)
             {
-                mHaraldEinheit[i] = new Einheit(mRandom.Next(0, mWindowWidth/2), mRandom.Next(0, mWindowHeight));
+                mHaraldEinheit[i] = new Spartaner(mRandom.Next(0, mWindowWidth/2), mRandom.Next(0, mWindowHeight));
                 mHaraldEinheit[i].InfTexture01 = this.Content.Load<Texture2D>("infantrie");
                 mHaraldEinheit[i].mFraktion = "Good";
             }
             for (int i = 0; i < mEnemy.Length; i++)
             {
-                mEnemy[i] = new Einheit(mRandom.Next(mWindowWidth / 2, mWindowWidth), mRandom.Next(0, mWindowHeight));
+                mEnemy[i] = new Spartaner(mRandom.Next(mWindowWidth / 2, mWindowWidth), mRandom.Next(0, mWindowHeight));
                 mEnemy[i].InfTexture01 = this.Content.Load<Texture2D>("infantrie");
                 mEnemy[i].mFraktion = "Evil";
             }
@@ -123,11 +124,12 @@ namespace theArtofWar
                 if (mAlleEinheiten[i].mLeben < 1)
                 {
                     mAlleEinheiten.RemoveAt(i);
+                    Console.WriteLine(mAlleEinheiten.Count);
                 }
             }
 
             for (int i = 0; i < mAlleEinheiten.Count; i++)
-            {   
+            {
                 for (int j = 0; j < mAlleEinheiten.Count; j++)
                 {
                     if (i == j) continue;
@@ -179,10 +181,11 @@ namespace theArtofWar
                 }
                 else
                 {
-                mSpriteBatch.Draw(texture: mAlleEinheiten[i].InfTexture01, position: mAlleEinheiten[i].Pos, sourceRectangle: null, 
-                    color: Color.White, rotation: mAlleEinheiten[i].GetDirection(new Vector2(mWindowWidth / 2, mWindowHeight/2)), 
-                    origin: new Vector2(mAlleEinheiten[i].InfTexture01.Width / 2, mAlleEinheiten[i].InfTexture01.Height / 2), 
-                    scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
+                    //   mAlleEinheiten[i].Draw(mSpriteBatch);
+                    mSpriteBatch.Draw(texture: mAlleEinheiten[i].InfTexture01, position: mAlleEinheiten[i].Pos, sourceRectangle: null,
+                        color: Color.White, rotation: mAlleEinheiten[i].GetDirection(new Vector2(mWindowWidth / 2, mWindowHeight / 2)),
+                        origin: new Vector2(mAlleEinheiten[i].InfTexture01.Width / 2, mAlleEinheiten[i].InfTexture01.Height / 2),
+                        scale: 0.1f, effects: SpriteEffects.None, layerDepth: 0f);
                 }
             }
 

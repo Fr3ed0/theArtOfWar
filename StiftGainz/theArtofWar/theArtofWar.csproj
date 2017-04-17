@@ -59,7 +59,8 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Einheit.cs" />
+    <Compile Include="Einheiten\Einheit.cs" />
+    <Compile Include="Einheiten\Spartaner.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
